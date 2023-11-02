@@ -1,0 +1,6 @@
+env
+cursos/__pycache__
+pythonAPIRest/__pycache__
+cursos/migrations
+static
+db.sqlite3
