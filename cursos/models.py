@@ -1,3 +1,4 @@
+# PASSO 1
 from django.db import models
 
 
