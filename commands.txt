@@ -6,9 +6,11 @@ django-admin startproject "name-project" .
 
 django-admin startapp 'nome-app'
 
+
 python manage.py makemigrations
 
 python manage.py migrate ->> Cria as tabelas
+
 
 python manage.py createsuperuser
 
@@ -29,3 +31,14 @@ pip freeze > requirements.txt
 source env/bin/activate -->> Ativa o ambiente virtural
 
 python3 manage.py runserver -->> Executa o servidor
+
+##########################################################
+
+GERAR TOKEN
+
+python3 manage.py shell
+
+from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
+user = User.objects.get(id=1)
+token = Token.objects.create(user=user)

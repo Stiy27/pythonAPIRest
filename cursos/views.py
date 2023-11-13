@@ -8,8 +8,12 @@ from rest_framework.decorators import action # Permite alterar ações dentro do
 from rest_framework.response import Response
 from rest_framework import mixins
 
+from rest_framework import permissions
+
+# Importação das classes do projeto
 from .models import Curso, Avaliacao
 from .serializers import CursoSerializer, AvaliacaoSerializer
+from .permissions import EhSuperUser
 
 """ # API V1
 
@@ -106,14 +110,27 @@ class AvaliacaoAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 # ViewSet gera apeans operações CRUD de um único Model - ou Curso ou Avaliacao, não gera composto: curso/1/avaliacao
 class CursoViewSet(viewsets.ModelViewSet):
+    # Configuração explícita, pontual, específica, se a primeira não resoler, pega a do django model
+    permission_classes = (EhSuperUser, permissions.DjangoModelPermissions, )
+    
     queryset = Curso.objects.all()
     serializer_class = CursoSerializer
     
     # Decorator cria uma nova rota curso-avaliacoes para trazer avaliacoes de determinado curso
     @action(detail=True, methods=['get'])
     def avaliacoes(self, request, pk=None):
-        curso = self.get_object() # Pega o curso que chama a url
-        serializer = AvaliacaoSerializer(curso.avaliacoes.all(), many=True)
+        # Define a paginação fora de settings
+        self.pagination_class.page_size = 1
+        avaliacoes = Avaliacao.objects.filter(curso_id=pk)
+        page = self.paginate_queryset(avaliacoes)
+        
+        if page is not None: # Se a página existir
+            serializer = AvaliacaoSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+            
+        # Pega o curso que chama a url
+        # Se a página NÃO existir
+        serializer = AvaliacaoSerializer(avaliacoes, many=True)
         return Response(serializer.data)
 
 
