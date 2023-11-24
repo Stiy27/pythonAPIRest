@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 My Token:
 '59b1de81b5aff89b1cb7110806f8fd4597c43a67'
 
+Token Musashi: fc7473280c79365cef5d19e88c6b6e917a181460
+
 """
 
 from pathlib import Path
@@ -158,5 +160,13 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 3
+    'PAGE_SIZE': 5,
+    'DEFAULT_THROTTLE_CLASSES': (
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ),
+    'DEFAULT_THROTTLE_RATES': { # Limita as requisições por tipo de usuário
+        'anon': '5/minute',
+        'user': '10/minute'
+    }
 }

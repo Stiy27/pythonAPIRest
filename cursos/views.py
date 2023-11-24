@@ -120,7 +120,7 @@ class CursoViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['get'])
     def avaliacoes(self, request, pk=None):
         # Define a paginação fora de settings
-        self.pagination_class.page_size = 1
+        self.pagination_class.page_size = 2
         avaliacoes = Avaliacao.objects.filter(curso_id=pk)
         page = self.paginate_queryset(avaliacoes)
         
