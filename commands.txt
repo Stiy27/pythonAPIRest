@@ -28,7 +28,7 @@ pip freeze > requirements.txt
 
 ##########################################################
 
-source env/bin/activate -->> Ativa o ambiente virtural
+source env/bin/activate -->> Ativa o ambiente virtual
 
 python3 manage.py runserver -->> Executa o servidor
 
@@ -42,3 +42,12 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 user = User.objects.get(id=1)
 token = Token.objects.create(user=user)
+
+##########################################################
+Testa automatizado com PYTEST
+
+No ambiente virtual
+
+pip install pytest
+
+pytest test_pytest.py

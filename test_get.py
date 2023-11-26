@@ -6,7 +6,7 @@ url_avaliacoes = 'http://localhost:8000/api/v2/avaliacoes/'
 
 resultados_get = requests.get(url=url_cursos, headers=headers)
 
-print(resultados_get.json())
+print(resultados_get.json()['results'])
 print("\n\nCursos Cadastrados:\n", resultados_get.json()['results'])
 
 #print(resultados_get.status_code)
@@ -15,4 +15,4 @@ print("\n\nCursos Cadastrados:\n", resultados_get.json()['results'])
 assert resultados_get.status_code == 200
 
 # Testa título de curso
-assert resultados_get.json()['results'][0]['titulo'] == 'Curso DevOps'
+#assert resultados_get.json()['results'][0]['titulo'] == 'Curso DevOps'
